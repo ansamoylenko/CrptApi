@@ -12,8 +12,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -113,7 +111,6 @@ public class CrptApi {
         private final Semaphore semaphore;
         private ScheduledExecutorService scheduler;
         private final AtomicInteger dept;
-        private final ReadWriteLock lock;
 
         public LimitedRateExecutorService(int requestLimit, TimeUnit timeUnit) {
             assert requestLimit > 0;
@@ -122,7 +119,6 @@ public class CrptApi {
             this.requestLimit = requestLimit;
             this.semaphore = new Semaphore(requestLimit, true);
             this.dept = new AtomicInteger(0);
-            this.lock = new ReentrantReadWriteLock();
         }
 
         /**
